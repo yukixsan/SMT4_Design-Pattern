@@ -4,7 +4,7 @@
         {
             "label": "Build PacmanGame",
             "type": "shell",
-            "command": "D:\\MySys2\\ucrt64\\bin\\g++.exe",
+            "command": "g++",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
@@ -18,10 +18,8 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "detail": "compiler: D:\\MySys2\\ucrt64\\bin\\g++.exe"
+"problemMatcher": ["$gcc"],
+"detail": "compiler: g++"
         },
         {
             "label": "Run PacmanGame",
