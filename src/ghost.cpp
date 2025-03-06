@@ -1,20 +1,12 @@
 #include "Ghost.h"
-#include <random>
 #include <chrono>
 
-Ghost::Ghost(int startX, int startY, char ghostIcon) 
-    : x(startX), y(startY), icon(ghostIcon), running(false) {}
+Ghost::Ghost(int startX, int startY, char ghostIcon, MovementStrategy* movementStrategy)
+    : x(startX), y(startY), icon(ghostIcon), running(false), strategy(movementStrategy) {}
 
 Ghost::~Ghost() {
     stopMoving(); // Ensure thread is stopped before destruction
-}
-
-void Ghost::move(int dx, int dy, Map &map) {
-    char nextTile = map.getTile(y + dy, x + dx);
-    if (map.isWalkable(y + dy, x + dx)) { // Check if the next tile is walkable
-        x += dx;
-        y += dy;
-    }
+    delete strategy; //clean up strategy
 }
 
 void Ghost::draw() {
@@ -25,7 +17,7 @@ void Ghost::draw() {
 int Ghost::getX() const { return x; }
 int Ghost::getY() const { return y; }
 
-void Ghost::moveLoop(Map &map) {
+void Ghost::moveLoop(Map &map, const Pacman& pacman) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
     cursorInfo.bVisible = false;
@@ -33,21 +25,11 @@ void Ghost::moveLoop(Map &map) {
     SetConsoleCursorInfo(hConsole, &cursorInfo); // Hide cursor
 
     int prevX = x, prevY = y; // Store previous position
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 3); // For random direction
-
     while (running) {
-        prevX = x; prevY = y; // Update previous position
+        prevX = x; prevY = y;
 
-        // Random movement: 0=up, 1=down, 2=left, 3=right
-        int direction = dis(gen);
-        switch (direction) {
-            case 0: move(0, -1, map); break; // Up
-            case 1: move(0, 1, map); break;  // Down
-            case 2: move(-1, 0, map); break; // Left
-            case 3: move(1, 0, map); break;  // Right
-        }
+        // Use the strategy to move
+        strategy->move(x, y, map, pacman);
 
         // Erase previous position
         gotoxy(prevX, prevY);
@@ -57,13 +39,15 @@ void Ghost::moveLoop(Map &map) {
         gotoxy(x, y);
         std::cout << icon;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(200)); // Slower than Pacman
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 }
 
-void Ghost::startMoving(Map &map) {
+void Ghost::startMoving(Map &map, const Pacman& pacman) {
     running = true;
-    movementThread = std::thread(&Ghost::moveLoop, this, std::ref(map));
+    movementThread = std::thread([this, &map, &pacman]() {
+        this->moveLoop(map, pacman);
+    });
 }
 
 void Ghost::stopMoving() {
