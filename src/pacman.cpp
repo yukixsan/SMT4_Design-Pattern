@@ -1,7 +1,5 @@
-// Pacman.cpp
 #include "Pacman.h"
 #include <conio.h>
-#include <windows.h>
 
 Pacman::Pacman(int startX, int startY) : x(startX), y(startY), points(0), running(false) {}
 
@@ -33,26 +31,26 @@ void Pacman::moveLoop(Map &map) {
     CONSOLE_CURSOR_INFO cursorInfo;
     cursorInfo.bVisible = false;
     cursorInfo.dwSize = 1;
-    SetConsoleCursorInfo(hConsole, &cursorInfo); // Hide cursor to reduce flicker
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
 
-    int prevX = x, prevY = y; // Store previous position
+    int prevX = x, prevY = y;
 
     while (running) {
-        prevX = x; prevY = y; // Update previous position before moving
+        prevX = x; prevY = y;
 
         if (GetAsyncKeyState(VK_UP)) move(0, -1, map);
         if (GetAsyncKeyState(VK_DOWN)) move(0, 1, map);
         if (GetAsyncKeyState(VK_LEFT)) move(-1, 0, map);
         if (GetAsyncKeyState(VK_RIGHT)) move(1, 0, map);
 
-        // Erase previous position
+        // Restore the map tile at the previous position
         gotoxy(prevX, prevY);
-        std::cout << " "; 
+        std::cout << map.getTile(prevY, prevX);
         
-        gotoxy(x, y);  // Move cursor to Pacman’s position
-        std::cout << "P"; // Redraw only Pacman
+        gotoxy(x, y);
+        std::cout << "P";
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Adjust speed
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
@@ -66,4 +64,10 @@ void Pacman::stopMoving() {
     if (movementThread.joinable()) {
         movementThread.join();
     }
+}
+
+void Pacman::gotoxy(short x, short y) {
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD position = {x, y};
+    SetConsoleCursorPosition(hStdout, position);
 }

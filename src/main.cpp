@@ -1,6 +1,4 @@
 #include <iostream>
-#include <stdio.h>
-#include <windows.h>
 #include <string>
 #include <vector>
 #include "Map.h"
@@ -11,19 +9,19 @@ using namespace std;
 int main() {
     Map gameMap;
     Pacman pacman(15, 16); // Initial Pacman position
-    Ghost ghost(5, 5, 'G'); // Initial Ghost position with icon 'G'
+    Ghost ghost; // Default ghost position (5, 5)
 
     system("cls"); // Clear console
-    gameMap.ShowMap(pacman.getX(), pacman.getY()); // Initial draw
-    pacman.draw();
-    ghost.draw();
+    gameMap.ShowMap(); // Draw the map without Pacman
+    pacman.draw(); // Draw Pacman
+    ghost.draw();  // Draw ghost
 
     pacman.startMoving(gameMap); // Start Pacman movement
-    ghost.startMoving(gameMap);  // Start Ghost movement
+    ghost.startMoving(gameMap);  // Start ghost movement
 
     std::cin.get(); // Wait for user input to exit
 
     pacman.stopMoving(); // Stop Pacman thread
-    ghost.stopMoving();  // Stop Ghost thread
+    ghost.stopMoving();  // Stop ghost thread
     return 0;
 }

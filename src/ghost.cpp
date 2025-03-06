@@ -2,16 +2,14 @@
 #include <random>
 #include <chrono>
 
-Ghost::Ghost(int startX, int startY, char ghostIcon) 
-    : x(startX), y(startY), icon(ghostIcon), running(false) {}
+Ghost::Ghost() : x(5), y(5), icon('G'), running(false) {}
 
 Ghost::~Ghost() {
-    stopMoving(); // Ensure thread is stopped before destruction
+    stopMoving(); // Ensure thread stops before destruction
 }
 
 void Ghost::move(int dx, int dy, Map &map) {
-    char nextTile = map.getTile(y + dy, x + dx);
-    if (map.isWalkable(y + dy, x + dx)) { // Check if the next tile is walkable
+    if (map.isWalkable(y + dy, x + dx)) {
         x += dx;
         y += dy;
     }
@@ -19,7 +17,7 @@ void Ghost::move(int dx, int dy, Map &map) {
 
 void Ghost::draw() {
     gotoxy(x, y);
-    std::cout << icon; // Draw ghost character
+    std::cout << icon;
 }
 
 int Ghost::getX() const { return x; }
@@ -30,17 +28,16 @@ void Ghost::moveLoop(Map &map) {
     CONSOLE_CURSOR_INFO cursorInfo;
     cursorInfo.bVisible = false;
     cursorInfo.dwSize = 1;
-    SetConsoleCursorInfo(hConsole, &cursorInfo); // Hide cursor
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
 
-    int prevX = x, prevY = y; // Store previous position
+    int prevX = x, prevY = y;
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 3); // For random direction
+    std::uniform_int_distribution<> dis(0, 3);
 
     while (running) {
-        prevX = x; prevY = y; // Update previous position
+        prevX = x; prevY = y;
 
-        // Random movement: 0=up, 1=down, 2=left, 3=right
         int direction = dis(gen);
         switch (direction) {
             case 0: move(0, -1, map); break; // Up
@@ -49,15 +46,14 @@ void Ghost::moveLoop(Map &map) {
             case 3: move(1, 0, map); break;  // Right
         }
 
-        // Erase previous position
+        // Restore the map tile at the previous position
         gotoxy(prevX, prevY);
-        std::cout << " ";
+        std::cout << map.getTile(prevY, prevX);
 
-        // Draw new position
         gotoxy(x, y);
         std::cout << icon;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(200)); // Slower than Pacman
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 }
 
@@ -71,4 +67,10 @@ void Ghost::stopMoving() {
     if (movementThread.joinable()) {
         movementThread.join();
     }
+}
+
+void Ghost::gotoxy(short x, short y) {
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD position = {x, y};
+    SetConsoleCursorPosition(hStdout, position);
 }

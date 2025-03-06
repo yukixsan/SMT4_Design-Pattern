@@ -14,12 +14,7 @@ private:
     std::atomic<bool> running;
     std::thread movementThread;
 
-    void gotoxy(short x, short y) {
-        HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-        COORD position = {x, y};
-        SetConsoleCursorPosition(hStdout, position);
-    }
-
+    void gotoxy(short x, short y);
     void moveLoop(Map &map);
 
 public:
