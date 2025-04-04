@@ -8,6 +8,7 @@
 #include "chaseState.h"
 #include "frightenedState.h"
 #include "wanderState.h"
+#include "returnState.h"
 #include <windows.h>
 #include <thread>
 #include <atomic>

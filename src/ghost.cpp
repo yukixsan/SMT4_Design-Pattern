@@ -29,14 +29,24 @@ void Ghost::moveLoop(Map& map, const Pacman& pacman) {
     int prevX = x, prevY = y;
     while (running) {
         prevX = x; prevY = y;
-        // Check if Pacman is powered up and switch state
-        if (pacman.isPoweredUp() && dynamic_cast<FrightenedState*>(currentState) == nullptr) {
-            setState(new FrightenedState());
-        } else if (!pacman.isPoweredUp() && dynamic_cast<ChaseState*>(currentState) == nullptr 
-        && dynamic_cast<WanderState*>(currentState) == nullptr)
-        {
-            setState(new ChaseState());
+        
+        // Collision check
+        if (dynamic_cast<FrightenedState*>(currentState) != nullptr &&
+            x == pacman.getX() && y == pacman.getY()) {
+            setState(new ReturnState());
         }
+        // State switching logic, but skip if in ReturnState
+        if (dynamic_cast<ReturnState*>(currentState) == nullptr) { // Only apply if not in ReturnState
+            if (pacman.isPoweredUp() && dynamic_cast<FrightenedState*>(currentState) == nullptr) {
+                setState(new FrightenedState());
+            } else if (!pacman.isPoweredUp() && 
+                       dynamic_cast<WanderState*>(currentState) == nullptr && 
+                       dynamic_cast<ChaseState*>(currentState) == nullptr) {
+                setState(new WanderState());
+            }
+        }
+
+        
         currentState->update(*this, map, pacman);
 
         // Erase previous position with the map's tile
