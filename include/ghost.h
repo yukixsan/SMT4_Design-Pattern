@@ -7,7 +7,7 @@
 #include "ghostState.h"
 #include "chaseState.h"
 #include "frightenedState.h"
-#include "movementStrategy.h"
+#include "wanderState.h"
 #include <windows.h>
 #include <thread>
 #include <atomic>

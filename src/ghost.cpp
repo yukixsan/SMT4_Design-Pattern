@@ -32,7 +32,9 @@ void Ghost::moveLoop(Map& map, const Pacman& pacman) {
         // Check if Pacman is powered up and switch state
         if (pacman.isPoweredUp() && dynamic_cast<FrightenedState*>(currentState) == nullptr) {
             setState(new FrightenedState());
-        } else if (!pacman.isPoweredUp() && dynamic_cast<ChaseState*>(currentState) == nullptr) {
+        } else if (!pacman.isPoweredUp() && dynamic_cast<ChaseState*>(currentState) == nullptr 
+        && dynamic_cast<WanderState*>(currentState) == nullptr)
+        {
             setState(new ChaseState());
         }
         currentState->update(*this, map, pacman);

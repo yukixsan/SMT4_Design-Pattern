@@ -10,7 +10,7 @@ using namespace std;
 int main() {
     Map gameMap;
     Pacman pacman(19, 1);
-    Ghost ghost(12, 18, 'G', new ChaseState());
+    Ghost ghost(12, 18, 'G', new WanderState());
 
     system("cls");
     gameMap.ShowMap(pacman.getX(), pacman.getY());
