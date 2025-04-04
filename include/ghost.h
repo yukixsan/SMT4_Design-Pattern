@@ -3,10 +3,15 @@
 
 #include "Map.h"
 #include "pacman.h"
+#include "utility.h"
+#include "ghostState.h"
+#include "chaseState.h"
+#include "frightenedState.h"
 #include "movementStrategy.h"
 #include <windows.h>
 #include <thread>
 #include <atomic>
+#include <iostream>
 
 class Ghost {
 private:
@@ -14,26 +19,24 @@ private:
     char icon;         // Character representing the ghost (e.g., 'G')
     std::atomic<bool> running; // Control ghost movement thread
     std::thread movementThread; // Thread for ghost movement
-    MovementStrategy* strategy; //Strategy
-
-    void gotoxy(short x, short y) {
-        HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-        COORD position = {x, y};
-        SetConsoleCursorPosition(hStdout, position);
-    }
+    GhostState* currentState;
 
     void moveLoop(Map &map, const Pacman& pacman); // Ghost movement logic
 
 public:
-    Ghost(int startX, int startY, char ghostIcon, MovementStrategy* strategy); // Constructor
+    Ghost(int startX, int startY, char ghostIcon,  GhostState* initialState); // Constructor
     ~Ghost(); // Destructor to clean up thread
 
     void startMoving(Map &map, const Pacman& pacman); // Start ghost movement
     void stopMoving(); // Stop ghost movement
-    void move(int dx, int dy, Map &map); // Move ghost in a direction
+    void setState(GhostState* newState); // Set state
     void draw(); // Draw ghost on console
     int getX() const; // Get X position
     int getY() const; // Get Y position
+
+    //Get set X and Y
+    void setX(int newX) { x = newX; }
+    void setY(int newY) { y = newY; }
 };
 
 #endif

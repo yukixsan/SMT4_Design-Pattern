@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#define WIDTH 32   // Map width
-#define HEIGHT 18  // Map height
+#define WIDTH 39   // Map width
+#define HEIGHT 23  // Map height
 
 class Map {
 public:
@@ -15,7 +15,7 @@ public:
     Map(); // Constructor (can be empty for now)
     void ShowMap(int pacmanX, int pacmanY);  // Function to display the map
     bool isWalkable(int y, int x); //Check if it's wall or not
-
+    void setTile(int y, int x, char tile); // New: to update map (e.g., eat pellets)
 };
 
 #endif

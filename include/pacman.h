@@ -2,6 +2,7 @@
 #define PACMAN_H
 
 #include "Map.h"
+#include "utility.h"
 #include <windows.h>
 #include <iostream>
 #include <thread>
@@ -14,11 +15,8 @@ private:
     std::atomic<bool> running;
     std::thread movementThread;
 
-    void gotoxy(short x, short y) {
-        HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-        COORD position = {x, y};
-        SetConsoleCursorPosition(hStdout, position);
-    }
+    bool poweredUp; // Power up condition
+    std::chrono::steady_clock::time_point powerUpEnd; // New: Power-up expiration
 
     void moveLoop(Map &map);
 
@@ -32,6 +30,7 @@ public:
     int getX() const;
     int getY() const;
     int getPoints() const;
+    bool isPoweredUp() const;
 };
 
 #endif

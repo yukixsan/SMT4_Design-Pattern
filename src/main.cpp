@@ -1,31 +1,29 @@
 #include <iostream>
-#include <stdio.h>
 #include <windows.h>
-#include <string>
-#include <vector>
+#include <thread> // For sleep
 #include "Map.h"
 #include "Pacman.h"
 #include "Ghost.h"
-#include "chaseStrat.h"
-#include "randomStrat.h"
+#include "ChaseState.h" // Include the new state
 using namespace std;
 
 int main() {
     Map gameMap;
-    Pacman pacman(15, 16); // Initial Pacman position
-    Ghost ghost(5,5,'C', new ChaseStrategy());
+    Pacman pacman(19, 1);
+    Ghost ghost(12, 18, 'G', new ChaseState());
 
-    system("cls"); // Clear console
-    gameMap.ShowMap(pacman.getX(), pacman.getY()); // Initial draw
+    system("cls");
+    gameMap.ShowMap(pacman.getX(), pacman.getY());
     pacman.draw();
     ghost.draw();
 
-    pacman.startMoving(gameMap); // Start Pacman movement
-    ghost.startMoving(gameMap, pacman);  // Start Ghost movement
+    pacman.startMoving(gameMap);
+    ghost.startMoving(gameMap, pacman);
 
-    std::cin.get(); // Wait for user input to exit
+    std::cin.get();
 
-    pacman.stopMoving(); // Stop Pacman thread
-    ghost.stopMoving();  // Stop Ghost thread
+    pacman.stopMoving();
+    ghost.stopMoving();
+
     return 0;
 }
