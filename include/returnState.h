@@ -11,7 +11,6 @@ private:
 public:
     ReturnState();
     void update(Ghost& ghost, Map& map, const Pacman& pacman) override;
-    char getIcon() const override { return 'R'; } // Temporary icon while returning
 };
 
 #endif

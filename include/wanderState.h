@@ -8,9 +8,8 @@ private:
     static const int DETECTION_RADIUS = 5; // Radius to detect Pacman
 
 public:
-    WanderState();
+    WanderState(char ghostIcon); // Use ghost's icon
     void update(Ghost& ghost, Map& map, const Pacman& pacman) override;
-    char getIcon() const override { return 'G'; }
 };
 
 #endif

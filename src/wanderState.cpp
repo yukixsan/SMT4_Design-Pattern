@@ -5,7 +5,7 @@
 #include <ctime>
 #include <cmath> // For distance calculation
 
-WanderState::WanderState() {
+WanderState::WanderState(char ghostIcon) : GhostState(ghostIcon) {
     static bool seeded = false;
     if (!seeded) {
         srand(static_cast<unsigned>(time(nullptr)));
@@ -25,7 +25,7 @@ void WanderState::update(Ghost& ghost, Map& map, const Pacman& pacman) {
     double distance = std::sqrt(dx * dx + dy * dy); // Euclidean distance
 
     if (distance <= DETECTION_RADIUS) {
-        ghost.setState(new ChaseState()); // Transition to ChaseState
+        ghost.setState(new ChaseState(ghost.getIcon())); // Transition to ChaseState
         return; // Exit early since state has changed
     }
 

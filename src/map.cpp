@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "utility.h"
 #include <cstdio> // For printf
 
 // Initialize the map in the constructor
@@ -53,7 +54,18 @@ void Map::ShowMap(int pacmanX, int pacmanY) {
         std::cout << std::endl;
     }
 }
-
+void Map::redrawMap(int pacmanX, int pacmanY) {
+    for (int y = 0; y < HEIGHT; y++) {
+        gotoxy(0, y); // Move cursor to start of each line
+        for (int x = 0; x < WIDTH; x++) {
+            if (x == pacmanX && y == pacmanY) {
+                std::cout << "P";
+            } else {
+                std::cout << map[y][x];
+            }
+        }
+    }
+}
 //Check walkable map
 bool Map::isWalkable(int y, int x) 
 {

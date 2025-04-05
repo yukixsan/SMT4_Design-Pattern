@@ -16,6 +16,7 @@ public:
     void ShowMap(int pacmanX, int pacmanY);  // Function to display the map
     bool isWalkable(int y, int x); //Check if it's wall or not
     void setTile(int y, int x, char tile); // New: to update map (e.g., eat pellets)
+    void redrawMap(int pacmanX, int pacmanY);
 };
 
 #endif

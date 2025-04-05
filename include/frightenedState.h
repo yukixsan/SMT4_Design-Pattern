@@ -5,9 +5,8 @@
 
 class FrightenedState : public GhostState {
 public:
-FrightenedState();
+    FrightenedState();
     void update(Ghost& ghost, Map& map, const Pacman& pacman) override;
-    char getIcon() const override { return 'F'; }
 };
 
 #endif

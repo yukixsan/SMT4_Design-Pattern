@@ -13,7 +13,8 @@ Ghost::~Ghost() {
 
 void Ghost::draw() {
     gotoxy(x, y);
-    std::cout << currentState->getIcon(); // Draw ghost character
+
+    std::cout << currentState->getIcon();
 }
 
 int Ghost::getX() const { return x; }
@@ -42,7 +43,7 @@ void Ghost::moveLoop(Map& map, const Pacman& pacman) {
             } else if (!pacman.isPoweredUp() && 
                        dynamic_cast<WanderState*>(currentState) == nullptr && 
                        dynamic_cast<ChaseState*>(currentState) == nullptr) {
-                setState(new WanderState());
+                setState(new WanderState(icon));
             }
         }
 

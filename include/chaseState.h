@@ -5,8 +5,8 @@
 
 class ChaseState : public GhostState {
 public:
+    ChaseState(char ghostIcon) : GhostState(ghostIcon) {} // Use ghost's icon
     void update(Ghost& ghost, Map& map, const Pacman& pacman) override;
-    char getIcon() const override { return 'G'; }
 };
 
 #endif // CHASE_STATE_H

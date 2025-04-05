@@ -7,10 +7,14 @@
 class Ghost;
 
 class GhostState {
+private : 
+    char icon;
+protected:
+    GhostState(char stateIcon) : icon(stateIcon) {} // Protected constructor for derived classes
 public:
-    virtual ~GhostState() = default; // Virtual destructor for proper cleanup
+    virtual ~GhostState() = default; // Virtual destruactor for proper cleanup
     virtual void update(Ghost& ghost, Map& map, const Pacman& pacman) = 0; // Core behavior
-    virtual char getIcon() const = 0; // Icon might change per state (e.g., frightened ghosts)
+     char getIcon() const { return icon; } // New: Access original icon
 };
 
 #endif // GHOST_STATE_H
