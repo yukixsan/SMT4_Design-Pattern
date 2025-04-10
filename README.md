@@ -157,7 +157,7 @@ Ghost* GhostFactory::createRandomGhost(int x) {
     return new Ghost(x, 11, ghostIcon, new WanderState(ghostIcon));
 }
 
-Change: Added 'S' to the icons array and updated the random selection to % 5.
+### Change: Added 'S' to the icons array and updated the random selection to % 5.
 
 ## Test the New Ghost Type:
 
