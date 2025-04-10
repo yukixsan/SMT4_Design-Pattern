@@ -6,6 +6,7 @@
 #include "Pacman.h"
 #include "Ghost.h"
 #include "ghostFactory.h"
+#include "coloredFrightenedState.h"
 
 using namespace std;
 

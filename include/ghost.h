@@ -9,6 +9,7 @@
 #include "frightenedState.h"
 #include "wanderState.h"
 #include "returnState.h"
+#include "coloredFrightenedState.h"
 #include <windows.h>
 #include <thread>
 #include <atomic>

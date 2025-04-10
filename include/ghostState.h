@@ -14,7 +14,7 @@ protected:
 public:
     virtual ~GhostState() = default; // Virtual destruactor for proper cleanup
     virtual void update(Ghost& ghost, Map& map, const Pacman& pacman) = 0; // Core behavior
-     char getIcon() const { return icon; } // New: Access original icon
+    virtual char getIcon() const { return icon; } // New: Access original icon
 };
 
 #endif // GHOST_STATE_H
