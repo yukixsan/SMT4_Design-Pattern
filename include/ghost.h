@@ -29,6 +29,7 @@ public:
     Ghost(int startX, int startY, char ghostIcon,  GhostState* initialState); // Constructor
     ~Ghost(); // Destructor to clean up thread
     char getIcon() const { return icon; } // Access original icon
+    char getStateIcon() const { return currentState->getIcon(); } // New: State-specific icon
     void startMoving(Map &map, const Pacman& pacman); // Start ghost movement
     void stopMoving(); // Stop ghost movement
     void setState(GhostState* newState); // Set state

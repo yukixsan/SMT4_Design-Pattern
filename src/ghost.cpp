@@ -12,16 +12,12 @@ Ghost::~Ghost() {
 }
 
 void Ghost::draw() {
-    gotoxy(x, y);
-    std::cout << currentState->getIcon();
 }
+int Ghost::getX() const { return x; }
+int Ghost::getY() const { return y; }
 
 void Ghost::moveLoop(Map& map, const Pacman& pacman) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO cursorInfo;
-    cursorInfo.bVisible = false;
-    cursorInfo.dwSize = 1;
-    SetConsoleCursorInfo(hConsole, &cursorInfo);
+    
 
     int prevX = x, prevY = y;
     while (running) {

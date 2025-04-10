@@ -2,21 +2,30 @@
 #define MAP_H
 
 #include <iostream>
+#include <string>
+#include <vector>
 
-#define WIDTH 39   // Map width
-#define HEIGHT 23  // Map height
+
+class Pacman;
+class Ghost;
 
 class Map {
+    private:
+    static const int HEIGHT = 23;
+    static const int WIDTH = 39;
+    static const char* mapData[HEIGHT]; // Static member
+    char map[HEIGHT][WIDTH];
+    std::string buffer;
 public:
-    char map[HEIGHT][WIDTH]; // 2D array for the map
-    char getTile(int y, int x); //Returns the tile
 
 
-    Map(); // Constructor (can be empty for now)
-    void ShowMap(int pacmanX, int pacmanY);  // Function to display the map
-    bool isWalkable(int y, int x); //Check if it's wall or not
-    void setTile(int y, int x, char tile); // New: to update map (e.g., eat pellets)
-    void redrawMap(int pacmanX, int pacmanY);
+    Map();
+    void initializeBuffer(); // Build initial buffer
+    void updateBuffer(int pacmanX, int pacmanY, const std::vector<Ghost*>& ghosts); // Update with entities
+    void redrawMap(); // Draw the buffer to console
+    bool isWalkable(int y, int x);
+    char getTile(int y, int x);
+    void setTile(int y, int x, char tile);
 };
 
 #endif
